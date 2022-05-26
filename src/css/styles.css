@@ -1,0 +1,62 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+#login-page {
+    background-color: #282828;
+    height: 100%; width: 100%;
+}
+
+#header {
+    font-size: calc(30px + 4vmin);
+    color: white;
+}
+
+#fb-btn {
+    padding: 10px;
+    background-color: #4267B2;
+    color: white;
+    border-radius: 30px;
+    width: 20rem;
+    font-size: 2rem;
+    border: 3px solid #282828;
+}
+
+#spinner {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    content: " ";
+    display: none;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: none;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#warning-msg {
+    color: red;
+    background-color: white;
+}
+
+#main-content {
+    display: none;
+}
