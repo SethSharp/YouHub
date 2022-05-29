@@ -5,10 +5,10 @@ import * as fb from "./APIS/facebook";
 import * as yt from "./APIS/youtube";
 
 $(function() {
-    let faceBookLikes = [];
+    let creatorData = [];
 
     $.ajaxSetup({ cache: true });
-    fb.initSDK(fbInit_cb);
+    fb.initSDK(fbInit_cb, view.successfulLogin, view.stopSpinner, view.startSpinner, fbLikes_cb);
 
     function fbInit_cb() {
         $(".fb-login").on("click", () => {
@@ -29,17 +29,45 @@ $(function() {
             return false;
         }
         let pointer = data.likes.data;
+        let searchQs = [];
         for (var i = 0; i < pointer.length; i++) {
             if (isIn(pointer[i].category)) {
-                faceBookLikes.push(pointer[i]);  
+                creatorData.push(pointer[i]);
+                searchQs.push(pointer[i].name);
             }
         }
-        addCards();
-        yt.test();
+        yt.getVideos(searchQs, addYTData);
     }
+    function addYTData(data) {
+        // Index 1 is the home page of yt site (Use in some way)
+        for (var i = 0; i < data.length; i++) {
+            // each iteration take the video id, snippet content {thumbnails, title}
+            creatorData[i].channelID = data[i].items[0].id.channelId;
+            // maybe use profile photo(From YT), in the main card, when click will
+            // take to yt content...
+            creatorData[i].mostRecent = [];
+            for (var j = 1; j < data[i].items.length; j++) {
+                let videoObj = {
+                    id: data[i].items[j].id.videoId,
+                    title: data[i].items[j].snippet.title,
+                    src: data[i].items[j].snippet.thumbnails.medium.url
+                }
+                creatorData[i].mostRecent.push(videoObj);
+            }
+            break;
+        }
+        // Need some function to add onclick events to each card
+        // then mayeb then spinner stops
+        addCards();
+        view.stopSpinner();
+        view.successfulLogin();
+    }
+
     function addCards() {
-        for (var i = 0; i < faceBookLikes.length; i++) {
-            view.addCard(faceBookLikes[i].cover.source, faceBookLikes[i].name);
+        for (var i = 0; i < creatorData.length; i++) {
+            view.addCard(creatorData[i], i);
+            console.log(creatorData[i])
+            break;
         }
     }
 });

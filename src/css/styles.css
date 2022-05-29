@@ -1,3 +1,6 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -12,11 +15,19 @@ html, body {
 #login-page {
     background-color: #282828;
     height: 100%; width: 100%;
+    text-align: center;
+}
+#login {
+    padding: 15%;
+    margin: auto;
 }
 
 #header {
-    font-size: calc(30px + 4vmin);
+    font-size: calc(20px + 10vmin);
     color: white;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
+    padding: 20px;
 }
 
 #fb-btn {
@@ -24,19 +35,30 @@ html, body {
     background-color: #4267B2;
     color: white;
     border-radius: 30px;
-    width: 20rem;
-    font-size: 2rem;
+    font-size: calc(5px + 3vmin);
     border: 3px solid #282828;
+}
+
+@media all and (max-width: 680px) {
+    #header {
+        font-size: calc(5px + 10vmin);
+    }
+}
+#spinner-container {
+    margin: auto;
+    padding-top: 25%;
+    width: 100px;
+    height: 100px;
 }
 
 #spinner {
     display: inline-block;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     content: " ";
     display: none;
-    width: 64px;
-    height: 64px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     border: 6px solid #fff;
     border-color: #fff transparent #fff transparent;
@@ -52,13 +74,23 @@ html, body {
     }
 }
 
+@keyframes moveit{
+    0% {
+        height: 100%;
+    }
+    100% {
+        height: 0%;
+        display: none;
+    }
+}
+
 #warning-msg {
     color: red;
     background-color: white;
 }
 
 #main-content {
-    display: none;
+    /* display: none; */
     background-color: #F1F1F1;
     height: 100%;
     width: 100%;
@@ -70,9 +102,11 @@ header {
     height: 5rem;
     font-size: calc(40px + 4vmin);
     text-align: center;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 500;
 }
 
-.cards {
+#cards {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
@@ -97,12 +131,58 @@ header {
     color: white;
     font-weight: bold;
     overflow: auto;
-    margin-top: 20px;
     text-align: center;
     font-size: calc(15px + 2vmin);
 }
 
 img {
-    width: 100%;height: 9rem;
+    width: 100%;height: 12rem;
     margin-top: 15px;
+}
+
+.yt-card {
+    margin: 10px;
+    width: 24rem;
+    height: 14rem;
+    border-radius: 40px;
+    background-color: lightblue;
+    overflow: hidden;
+}
+
+.yt-card:hover {
+    background-color: green;
+}
+
+.hover {
+    position:absolute;
+    background-color: rgba(0, 0, 0, 0.8);
+    width: 24rem;
+    height: 14rem;
+	/* display: none; */
+    z-index: 10;
+    border-radius: 39px;
+
+    color: white;
+    text-align: center;
+}
+
+#youtube-content {
+    display: none;
+    text-align: center;
+    background-color: lightgreen;
+}
+
+#youtube-headers {
+    color: lightgray;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 400;
+}
+
+#latest-videos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 30px;
 }

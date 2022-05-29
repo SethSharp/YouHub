@@ -2,11 +2,18 @@ import $ from "jquery";
 
 let proxyURL = 'https://s5220864.elf.ict.griffith.edu.au:3001/';
 
-export function initSDK(cb) {
-    $.getScript('https://connect.facebook.net/en_US/sdk.js', function(){
+export function initSDK(cb, login_cb, stopSpin_cb, startSpin_cb, fbLikes_cb) {
+    $.getScript('https://connect.facebook.net/en_US/sdk.js', function() {
         FB.init({
             appId: '527134588895337',
             version: 'v13.0'
+        });
+        FB.getLoginStatus(function(response) {
+            if (response.status === "connected") {
+                startSpin_cb();
+                var accessToken = response.authResponse.accessToken;
+                getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, accessToken);
+            }
         });
         cb();
     });
@@ -25,14 +32,23 @@ export function login(badLogin_cb, login_cb, stopSpin_cb, fbLikes_cb) {
     // console.log(login_FB);
     // window.location.replace(login_FB);
     // console.log(window.location.href);
-    FB.login(function(response) {
-        // console.log(response.authResponse);
-        if (response.authResponse) {
-            getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, response.authResponse.accessToken)
+
+    FB.getLoginStatus(function(response) {
+        if (response.status === "connected") {
+            
+            var accessToken = response.authResponse.accessToken;
+            getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, accessToken);
         } else {
-            badLogin_cb();
+            FB.login(function(response) {
+                if (response.authResponse) {
+                    getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, response.authResponse.accessToken)
+                } else {
+                    badLogin_cb();
+                }
+            });
         }
     });
+    
 }
 
 export function logout(cb) {
@@ -43,8 +59,7 @@ export function logout(cb) {
 
 function getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, authToken) {
     fetch(proxyURL+"?api=3&token="+authToken).then(res => res.json()).then(data => {
-        stopSpin_cb();
-        login_cb();
+        
         fbLikes_cb(data);
     });
 }
