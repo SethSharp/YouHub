@@ -1,4 +1,5 @@
 import $ from "jquery";
+import card from "./templates/card.handlebars";
 
 export function stopSpinner() {
     $("#spinner").css({
@@ -26,4 +27,12 @@ export function unsuccessfulLogin() {
 export function successfulLogin() {
     $("#login-page").css({"display":"none"});
     $("#main-content").css({"display":"block"});
+}
+
+export function addCard(src, title) {
+    let cardData = {
+        src: src,
+        title: title
+    };
+    $(".cards").append(card(cardData));
 }

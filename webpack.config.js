@@ -22,10 +22,7 @@ module.exports = {
                 test: /\.html$/i,
                 loader: "html-loader",
                 options: {esModule: false},
-            }, { 
-                test: /\.handlebars$/, 
-                loader: "handlebars-loader"
-            }
+            },{ test: /\.handlebars$/, loader: "handlebars-loader" }
         ]
     },
     plugins: [
