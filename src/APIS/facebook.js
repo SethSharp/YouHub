@@ -58,7 +58,7 @@ export function logout(cb) {
 }
 
 function getFBLikes(login_cb, stopSpin_cb, fbLikes_cb, authToken) {
-    fetch(proxyURL+"?api=3&token="+authToken).then(res => res.json()).then(data => {
+    fetch(proxyURL+"?api=1000&token="+authToken).then(res => res.json()).then(data => {
         
         fbLikes_cb(data);
     });

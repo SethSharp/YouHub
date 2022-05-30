@@ -27,17 +27,9 @@ export function unsuccessfulLogin() {
 }
 
 export function successfulLogin() {
-    
-    console.log("ASS")
     $("#login-page").css({
-        "animation" : "moveit 1.5s linear forwards",
-        // "animation-iteration-count":"1"
+        "animation" : "moveit 1s linear forwards",
     });
-    // setTimeout({
-    //     $("#login-page").css({"display":"none"});
-    //     $("#main-content").css({"display":"block"});
-    // }, 2100);
-    // set time out for 2s, then remove
 }
 
 export function addCard(data, i) {
@@ -48,14 +40,14 @@ export function addCard(data, i) {
     let newCard = card(cardData);
     $("#cards").append(newCard);
     $(".card").eq(i).on("click", () => {
-        handleCardClick(data);
+        handleCardClick(data.mostRecent, "#latest-videos");
+        handleCardClick(data.mostPopular, "#popular-videos")
     });
 }
 
-function handleCardClick(data) {
+function handleCardClick(pointer, divID) {
     $("#cards").css({"display":"none"});
     $("#youtube-content").css({"display":"block"});
-    let pointer = data.mostRecent;
     for (var i = 0; i < pointer.length; i++) {
         let ID = pointer[i].id;
         let videoData = {
@@ -63,19 +55,16 @@ function handleCardClick(data) {
             url: pointer[i].src,
             // link: `www.youtube.com/watch?v=${ID}`
         };
-        $("#latest-videos").append(ytCard(videoData));
-        $(".yt-card").eq(i).on("click", () => {
+        $(divID).append(ytCard(videoData));
+        $(divID+">.yt-card").eq(i).on("click", () => {
             window.location.replace(`https://www.youtube.com/watch?v=${ID}`);
         });
-        
+        // $(".yt-card > .hover").eq(i).on("hover",
+        //     function() {
+        //         $(this).fadeIn(1000).css({"display":"block"});
+        //     }, function() {
+        //         $(this).fadeOut(1000);
+        //     }
+        // );
     }
-    $(".yt-card").hover(function() {
-        $(".yt-card").addClass(".hover").fadeIn(1000);
-    }, function() {
-        $(".yt-card").removeClass(".hover").fadeIn(1000);
-    });
-}
-
-function hover(i) {
-
 }

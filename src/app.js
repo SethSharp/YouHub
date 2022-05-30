@@ -5,6 +5,7 @@ import * as fb from "./APIS/facebook";
 import * as yt from "./APIS/youtube";
 
 $(function() {
+
     let creatorData = [];
 
     $.ajaxSetup({ cache: true });
@@ -20,7 +21,7 @@ $(function() {
         });
     }
 
-    let categories = ["Public Figure", "Personal blog", "Sport & recreation", "Recreational & sport website", "Video creator", "Photography and videography"]
+    let categories = ["Public figure", "Personal blog", "Sport & recreation", "Recreation & sport website", "Video creator", "Photography and videography"]
     function fbLikes_cb(data) {
         function isIn(cat) {
             for (var i = 0; i < categories.length; i++) {
@@ -36,39 +37,49 @@ $(function() {
                 searchQs.push(pointer[i].name);
             }
         }
-        yt.getVideos(searchQs, addYTData);
+        yt.getChannelIDs(searchQs, addYTData);
     }
-    function addYTData(data) {
+    function addYTData(data, channelIDs) {
         // Index 1 is the home page of yt site (Use in some way)
         for (var i = 0; i < data.length; i++) {
             // each iteration take the video id, snippet content {thumbnails, title}
-            creatorData[i].channelID = data[i].items[0].id.channelId;
+            creatorData[i].channelID = channelIDs[i];
             // maybe use profile photo(From YT), in the main card, when click will
             // take to yt content...
             creatorData[i].mostRecent = [];
-            for (var j = 1; j < data[i].items.length; j++) {
+            for (var j = 0; j < data[i].items.length; j++) {
+                let videoObj = {
+                    id: data[i].items[j].id.videoId,
+                    title: data[i].items[j].snippet.title,
+                    src: data[i].items[j].snippet.thumbnails.high.url
+                }
+                creatorData[i].mostRecent.push(videoObj);
+            }
+        }
+        yt.getMostPopular(creatorData, addMostPop);
+    }
+
+    function addMostPop(data) {
+        for (var i = 0; i < data.length; i++) {
+            creatorData[i].mostPopular = [];
+            for (var j = 0; j < data[i].items.length; j++) {
                 let videoObj = {
                     id: data[i].items[j].id.videoId,
                     title: data[i].items[j].snippet.title,
                     src: data[i].items[j].snippet.thumbnails.medium.url
                 }
-                creatorData[i].mostRecent.push(videoObj);
+                creatorData[i].mostPopular.push(videoObj);
             }
-            break;
         }
-        // Need some function to add onclick events to each card
-        // then mayeb then spinner stops
         addCards();
-        view.stopSpinner();
-        view.successfulLogin();
     }
 
     function addCards() {
         for (var i = 0; i < creatorData.length; i++) {
             view.addCard(creatorData[i], i);
-            console.log(creatorData[i])
-            break;
         }
+        view.stopSpinner();
+        view.successfulLogin();
     }
 });
 

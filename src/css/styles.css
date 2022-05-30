@@ -110,7 +110,6 @@ header {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    background-color: red;
     width: 90%;
     margin-left: 5%;
     margin-top: 30px;
@@ -119,10 +118,13 @@ header {
 .card {
     margin: 10px;
     width: 24rem;
-    height: 14rem;
+    height: 14.5rem;
     border-radius: 40px;
-    background-color: lightblue;
     overflow: hidden;
+}
+
+.card:hover {
+    background-color: gray;
 }
 
 .card-header {
@@ -133,11 +135,12 @@ header {
     overflow: auto;
     text-align: center;
     font-size: calc(15px + 2vmin);
+    bottom: 0px;
+    position: relative;
 }
 
 img {
     width: 100%;height: 12rem;
-    margin-top: 15px;
 }
 
 .yt-card {
@@ -149,38 +152,34 @@ img {
     overflow: hidden;
 }
 
-.yt-card:hover {
-    background-color: green;
-}
-
 .hover {
     position:absolute;
     background-color: rgba(0, 0, 0, 0.8);
     width: 24rem;
     height: 14rem;
-	/* display: none; */
     z-index: 10;
     border-radius: 39px;
-
+    display: none;
     color: white;
     text-align: center;
 }
 
 #youtube-content {
     display: none;
-    text-align: center;
-    background-color: lightgreen;
+    background-color: #F8F9F9;
+    padding-top: 40px;
+    color: #282828;
 }
 
 #youtube-headers {
     color: lightgray;
     font-family: 'Rubik', sans-serif;
     font-weight: 400;
+    margin-left: 5%;
 }
 
-#latest-videos {
+#latest-videos, #popular-videos {
     display: flex;
-    justify-content: center;
     flex-wrap: wrap;
     width: 90%;
     margin-left: 5%;
